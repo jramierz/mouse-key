@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/png" sizes="32x32" href="img/compu.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="img/compu.png">
+  <title>Jugamos con el mouse y el teclado</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+  <!-- Fondo -->
+  <div class="sky">
+    <div class="cloud c1"></div>
+    <div class="cloud c2"></div>
+    <div class="cloud c3"></div>
+  </div>
+
+  <div class="mascota" id="mascota" aria-haspopup="true" aria-expanded="false" title="Compu">
+    <img src="img/compu.png" alt="Compu sonriente" />
+  </div>
+
+  <header>
+    <div class="head-inner">
+      <div class="brand">
+        <div>
+          <h1>Jugamos con el mouse y el teclado</h1>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HOME -->
+    <section id="home" class="screen active">
+      <div class="grid">
+        <article class="card">
+          <div class="big-emoji">▶️</div>
+          <h3>Jugar (3 retos)</h3>
+          <p>Se alternan automáticamente</p>
+          <button id="btnPlay">Empezar</button>
+        </article>
+
+        <article class="card">
+          <div class="big-emoji">🎈</div>
+          <h3>Globos</h3>
+          <p>Revienta los globos para lograrlo</p>
+          <button class="secondary" onclick="openScreen('balloons'); startBalloons();">Entrar</button>
+        </article>
+
+        <article class="card">
+          <div class="big-emoji">🌀</div>
+          <h3>Laberinto</h3>
+          <p>Mantén presionado y llega a la meta</p>
+          <button style="background:#06b6d4" onclick="openScreen('maze'); startMaze();">Entrar</button>
+        </article>
+
+        <article class="card">
+          <div class="big-emoji">🏠</div>
+          <h3>Casitas</h3>
+          <p>Arrastra a los animalitos a sus casitas</p>
+          <button onclick="openScreen('drag'); startDragHome();">Entrar</button>
+        </article>
+
+        <article class="card">
+          <div class="big-emoji">🖱️</div>
+          <h3>Clic Suave</h3>
+          <p>Izquierda y derecha</p>
+          <button onclick="openScreen('clicks'); startClicks();">Entrar</button>
+        </article>
+
+        <article class="card">
+          <div class="big-emoji">⌨️</div>
+          <h3>Teclas</h3>
+          <p>Sigue la secuencia de las letras (A–Z)</p>
+          <button style="background:#06b6d4" onclick="openScreen('keys'); startPianoKeys();">Entrar</button>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- GLOBOS -->
+    <section id="scr-balloons" class="screen">
+      <div class="bar">
+        <span class="pill">🎈 Globos</span>
+        <div class="spacer"></div>
+        <button class="btn" onclick="backHome()">← Inicio</button>
+        <button class="btn" id="btnModo">Modo fácil: ON</button>
+        <button class="btn primary" onclick="showOverlay(8)">🛎️ Cambio de turno</button>
+      </div>
+      <div class="stage">
+        <div class="progress">
+          <div class="barwrap" id="pwrap"></div>
+        </div>
+        <div class="balloon-area" id="balloonArea" aria-label="Haz clic en los globos"></div>
+      </div>
+    </section>
+
+    <!-- LABERINTO -->
+
+    <section id="scr-maze" class="screen">
+      <div class="bar">
+        <span class="pill">🌀 Laberinto</span>
+        <div class="spacer"></div>
+        <button class="btn" onclick="backHome()">← Inicio</button>
+        <button class="btn primary" onclick="showOverlay(8)">🛎️ Cambio de turno</button>
+      </div>
+
+      <div class="stage">
+        <div id="maze" class="maze">
+          <!-- Pistas (tracks) – ancho grande y esquinas suaves -->
+          <div class="track t1"></div>
+          <div class="track t2"></div>
+          <div class="track t3"></div>
+
+          <!-- Inicio, jugador y meta -->
+          <div id="startDot" class="dot start">🐭</div>
+          <div id="goalDot" class="dot goal">🧀</div>
+          <div id="player" class="player">🐁</div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- PIANO-TECLAS -->
+    <section id="scr-keys" class="screen">
+      <div class="bar">
+        <span class="pill">⌨️ Teclas</span>
+        <div class="spacer"></div>
+        <button class="btn" onclick="backHome()">← Inicio</button>
+        <button class="btn primary" onclick="showOverlay(8)">🛎️ Cambio de turno</button>
+      </div>
+      <div class="stage">
+        <div class="kbd-wrap">
+          <div>
+            <div class="big-key" id="bigKey">Sigue: A B C</div>
+            <div class="sub" id="subKey">Presiona las letras en orden</div>
+          </div>
+        </div>
+        <div id="rainbowTray" class="rainbow-tray" aria-hidden="true"></div>
+      </div>
+    </section>
+
+    <!-- CASITAS (drag & drop) -->
+    <section id="scr-drag" class="screen">
+      <div class="bar">
+        <span class="pill">🏠 Casitas</span>
+        <div class="spacer"></div>
+        <button class="btn" onclick="backHome()">← Inicio</button>
+        <button class="btn primary" onclick="showOverlay(8)">🛎️ Cambio de turno</button>
+      </div>
+      <div class="stage">
+        <div class="drag-wrap">
+          <div class="dropzone" data-key="🐶"><span class="ghost">🐶</span> <i class="windows" aria-hidden="true"></i>
+          </div>
+          <div class="dropzone" data-key="🐱"><span class="ghost">🐱</span> <i class="windows" aria-hidden="true"></i>
+          </div>
+          <div class="dropzone" data-key="🦊"><span class="ghost">🦊</span> <i class="windows" aria-hidden="true"></i>
+          </div>
+
+          <div class="palette" id="palette">
+            <!-- se llena por JS con 3 piezas aleatorias -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CLIC SUAVE -->
+    <section id="scr-clicks" class="screen">
+      <div class="bar">
+        <span class="pill">🖱️ Clic suave</span>
+        <div class="spacer"></div>
+        <button class="btn" onclick="backHome()">← Inicio</button>
+        <button class="btn primary" onclick="showOverlay(8)">🛎️ Cambio de turno</button>
+      </div>
+      <div class="stage">
+        <div class="mouseHUD">
+          <div class="counter" id="chipLeft">Izq: 0</div>
+          <div class="counter" id="chipRight">Der: 0</div>
+        </div>
+        <div class="click-area" id="clickArea"></div>
+        <div class="mouse-ghost" id="mouseGhost" aria-hidden="true">
+          <svg class="mouse" viewBox="0 0 120 170">
+            <rect class="body" x="15" y="20" rx="28" ry="28" width="90" height="130" />
+            <line class="split" x1="60" y1="20" x2="60" y2="70" />
+            <rect class="btn btn-left" x="22" y="25" width="36" height="40" rx="10" />
+            <rect class="btn btn-right" x="62" y="25" width="36" height="40" rx="10" />
+          </svg>
+        </div>
+        <div class="toast" id="toast">Clic</div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Turnos -->
+  <div class="overlay" id="overlay">
+    <div class="card">
+      <div class="mascot-face">🛎️🙂</div>
+      <h3>¡Cambio de turno!</h3>
+      <div class="count" id="count">8</div>
+      <button class="btn" id="btnContinue" disabled>Continuar</button>
+    </div>
+  </div>
+
+  <!-- Dock -->
+  <div class="dock">
+    <span class="tag" id="tagMode">Modo: Inicio</span>
+    <span class="tag" id="tagKeys">Teclas: 0</span>
+    <span class="tag" id="tagBalloons">Globos: 0</span>
+    <div class="push"></div>
+  </div>
+
+  <!-- Confeti -->
+  <div id="confetti"></div>
+
+  <script src="js/app.js"></script>
+</body>
+
+</html>

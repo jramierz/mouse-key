@@ -1,0 +1,191 @@
+:root{
+  --bg:#e8f3ff; --card:#fff; --ink:#0f172a; --muted:#64748b;
+  --primary:#4f46e5; --accent:#06b6d4; --ok:#10b981;
+  --shadow:0 8px 24px rgba(2,6,23,.12); --radius:20px;
+}
+
+/* ===== Base ===== */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; font-family:ui-rounded,system-ui,Segoe UI,Roboto,sans-serif;
+  color:var(--ink); background:var(--bg); display:flex; flex-direction:column; overflow-x:hidden
+}
+
+/* ===== Cielo ===== */
+.sky{position:fixed; inset:0; z-index:-2; background:linear-gradient(180deg,#dff0ff,#f7fbff)}
+.cloud{position:absolute; top:10%; width:200px; height:70px; background:#fff; border-radius:50px;
+  filter:blur(1px) drop-shadow(0 10px 20px rgba(2,6,23,.12)); opacity:.8; animation:drift 70s linear infinite}
+.cloud:before,.cloud:after{content:""; position:absolute; background:#fff; width:120px; height:120px; border-radius:60px; top:-30px}
+.cloud:before{left:20px} .cloud:after{left:100px; top:-40px}
+.c1{left:-220px; top:18%} .c2{left:-260px; top:35%; animation-duration:95s} .c3{left:-240px; top:60%; animation-duration:80s}
+@keyframes drift{from{transform:translateX(0)} to{transform:translateX(130vw)}}
+
+/* ===== Mascota ===== */
+.mascota{position:fixed; bottom:70px; left:20px; z-index:60; transform:rotate(-8deg);
+  animation:flotar 4s ease-in-out infinite; transition:transform .3s ease, scale .3s ease}
+.mascota:hover{transform:rotate(-2deg) scale(1.05)}
+.mascota img{width:140px; user-select:none; filter:drop-shadow(0 5px 10px rgba(0,0,0,.2)); pointer-events:auto}
+@keyframes flotar{0%,100%{transform:translateY(0) rotate(-8deg)} 50%{transform:translateY(-4px) rotate(-6deg)}}
+
+/* ===== Header ===== */
+header{position:sticky; top:0; background:rgba(255,255,255,.85); backdrop-filter:blur(10px);
+  border-bottom:1px solid #e2e8f0; z-index:5}
+.head-inner{max-width:1100px; margin:0 auto; padding:14px 16px; display:flex; align-items:center; gap:14px}
+h1{font-size:20px; margin:0}
+
+/* ===== Layout principal ===== */
+main{max-width:1100px; margin:0 auto; width:100%; padding:20px 16px 90px}
+.grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:18px}
+.card{background:var(--card); border:1px solid #e2e8f0; border-radius:var(--radius); padding:18px; box-shadow:var(--shadow); text-align:center}
+.big-emoji{font-size:54px}
+
+/* Botones & Pills */
+.btn,.pill{
+  display:inline-flex; align-items:center; justify-content:center;
+  height:40px; padding:0 14px; border-radius:9999px; background:#fff; border:1px solid #E5E7EB;
+  font:600 14px/1 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; color:#111827; cursor:pointer;
+  transition:transform .12s ease, box-shadow .12s ease, border-color .2s ease; box-shadow:none
+}
+.btn:hover,.pill:hover{transform:translateY(-1px); box-shadow:0 6px 14px rgba(0,0,0,.08)}
+.btn.primary{background:var(--primary); border-color:var(--primary); color:#fff}
+.btn.primary:hover{box-shadow:0 12px 22px rgba(79,70,229,.36)}
+.card button{margin-top:10px; padding:12px 16px; border:none; border-radius:14px; background:var(--primary); color:#fff; font-weight:700; cursor:pointer}
+.card button.secondary{background:var(--ok)}
+
+/* ===== Screens ===== */
+.screen{display:none}
+.screen.active{display:block}
+.screen .bar{display:flex; align-items:center; gap:12px; padding:10px 14px}
+.screen .bar .pill[data-active="1"]{border-color:#60A5FA}
+#btnModo{position:relative; padding-right:48px}
+#btnModo::after{content:""; position:absolute; right:10px; top:50%; transform:translateY(-50%);
+  width:34px; height:18px; border-radius:9999px; background:#E5E7EB; border:1px solid rgba(0,0,0,.08); transition:background .18s,border-color .18s}
+#btnModo::before{content:""; position:absolute; right:28px; top:50%; transform:translateY(-50%);
+  width:14px; height:14px; border-radius:50%; background:#fff; box-shadow:0 1px 2px rgba(0,0,0,.25); transition:right .18s}
+#btnModo[data-on="1"]::after{background:#22C55E; border-color:#22C55E}
+#btnModo[data-on="1"]::before{right:12px}
+
+/* ===== Stage ===== */
+.stage{position:relative; background:#f8fbff; min-height:480px; border:1px solid #e2e8f0;border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden}
+
+/* ===== BARRA DE PROGRESO ===== */
+.progress {position: absolute;left: 20px;right: 20px;top: 18px;display: flex;align-items: center;justify-content: center;z-index: 5;}
+#pwrap {display: grid;grid-template-columns: repeat(10, 1fr);gap: 6px;width: 100%;height: 18px;border-radius: 999px;
+    background: rgba(2, 6, 23, 0.08);padding: 3px;border: 1px solid rgba(14, 165, 233, 0.4);box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);}
+#pwrap .seg {height: 12px;background: #e0f2fe;border-radius: 999px;transition: all 0.25s ease;border: 1px solid rgba(14, 165, 233, 0.2);
+    box-shadow: inset 0 1px 2px rgba(255, 255, 255, .8);}
+#pwrap .seg.on {background: linear-gradient(90deg, #11ff68 0%, #20d44d 100%);border-color: transparent;
+    box-shadow:0 0 4px rgba(17, 238, 98, 0.4),inset 0 0 0 1px rgba(255, 255, 255, 0.375);transform: scaleY(1.1);}
+
+/* animación suave de llenado */
+#pwrap .seg.on {animation: infinite 0.4s infinite;}
+@keyframes fillSegment {from { transform: scaleX(0.5); opacity: 0.6; }to   { transform: scaleX(1); opacity: 1; }}
+
+/* versión móvil */
+@media (max-width: 600px) {#pwrap {height: 14px;gap: 4px;}#pwrap .seg {height: 10px;}}
+
+/* ===== Globos ===== */
+.progress{position:absolute; left:14px; right:14px; top:14px; display:flex; gap:10px; align-items:center; z-index:2}
+.balloon-area{position:absolute; inset:0; overflow:hidden}
+.balloon{position:absolute; bottom:-80px; font-size:62px; cursor:pointer; user-select:none; will-change:transform,opacity;
+  filter:drop-shadow(0 10px 18px rgba(2,6,23,.12))}
+.balloon.pop{transition:transform .18s ease-out, opacity .18s ease-out; transform:scale(1.25); opacity:0}
+
+/* ===== Piano-teclas ===== */
+.kbd-wrap{position:absolute; inset:0; display:grid; place-items:center; text-align:center; z-index:1}
+.big-key{background:#fff; border:1px solid #e2e8f0; border-radius:18px; padding:28px 24px; box-shadow:var(--shadow);
+  font-size:clamp(42px,8vw,96px); font-weight:900}
+.sub{margin-top:8px; color:var(--muted); font-weight:700}
+.rainbow-tray{position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0}
+.rain{position:absolute; left:0; right:0; height:22px; opacity:.95; animation:slideUp 1.2s ease-out forwards}
+@keyframes slideUp{from{transform:translateY(40px); opacity:.9} to{transform:translateY(-120%); opacity:0}}
+
+/* ===== Clic suave ===== */
+.mouseHUD{position:absolute; left:14px; top:14px; display:flex; gap:8px; z-index:1}
+.counter{background:#fff; border:1px solid #e2e8f0; border-radius:12px; padding:8px 10px; box-shadow:var(--shadow)}
+.click-area{position:absolute; inset:0}
+.pulse{position:absolute; width:12px; height:12px; border-radius:999px; border:3px solid var(--accent); transform:translate(-50%,-50%); opacity:0; animation:pulse .6s ease-out forwards}
+@keyframes pulse{from{opacity:.9; scale:1} to{opacity:0; scale:3}}
+.toast{position:absolute; right:14px; bottom:14px; background:#fff; border:1px solid #e2e8f0; border-radius:12px; padding:10px 12px;
+  box-shadow:var(--shadow); opacity:0; transform:translateY(8px); transition:.25s}
+.toast.show{opacity:1; transform:translateY(0)}
+.mouse-ghost{position:absolute; pointer-events:none; width:100px; height:145px; translate:-50% -50%; opacity:.95}
+.mouse .body{fill:#fff; stroke:#cbd5e1; stroke-width:2}
+.mouse .btn{fill:#e2e8f0}
+.mouse .btn.active-left{fill:#86efac}
+.mouse .btn.active-right{fill:#fe8e8e}
+.mouse .btn{ transition: fill .04s ease; }
+
+/* ===== Casitas ===== */
+.drag-wrap{position:absolute; inset:0; display:grid; grid-template-columns:1fr 1fr; gap:16px; padding:16px}
+.dropzone{
+  --house:#fffaf2; --grass:#dff6e1; --stroke:rgba(0,0,0,.06);
+  position:relative; display:grid; place-items:center; min-height:clamp(140px,22vh,180px);
+  border-radius:16px; padding:8px; margin:10px;
+  background:linear-gradient(to bottom,transparent 0 72%, var(--grass) 72% 100%), var(--house);
+  box-shadow:0 8px 18px rgba(0,0,0,.06), inset 0 0 0 2px var(--stroke); transition:transform .2s, box-shadow .2s}
+.dropzone:hover{transform:translateY(-2px); box-shadow:0 10px 22px rgba(0,0,0,.09), inset 0 0 0 2px var(--stroke)}
+.dropzone::after{content:""; position:absolute; bottom:14px; left:50%; width:28px; height:38px; transform:translateX(-50%);
+  background:linear-gradient(#7a6251,#5b4636); border-radius:8px 8px 4px 4px; box-shadow:inset 0 0 0 2px rgba(0,0,0,.05)}
+.dropzone .ghost{position:relative; font-size:clamp(40px,6vw,64px); opacity:.35; filter:saturate(.6) contrast(.95); user-select:none; pointer-events:none}
+.dropzone .ghost::after{content:""; position:absolute; inset:-12px -14px; border:3px dashed #7dd3fc; border-radius:14px; box-shadow:inset 0 2px 0 rgba(0,0,0,.04)}
+.dropzone.correct{box-shadow:0 14px 26px rgba(0,0,0,.12), inset 0 0 0 2px rgba(16,185,129,.25);
+  background:linear-gradient(to bottom,transparent 0 72%, #d3f7d8 72% 100%), #fffef7; animation:yay .35s ease}
+.dropzone.correct .ghost,.dropzone.correct .ghost::after{visibility:hidden; display:none}
+@keyframes yay{0%{transform:translateY(0) scale(1)} 40%{transform:translateY(-5px) scale(1.02)} 100%{transform:translateY(0) scale(1)}}
+.palette{background:#fff; border:1px solid #e2e8f0; border-radius:16px; padding:12px; display:flex; flex-wrap:wrap; gap:12px;
+  align-content:flex-start; min-height:160px; overflow:auto}
+.piece{font-size:56px; cursor:grab; user-select:none; display:inline-block}
+.piece.dragging{opacity:.7; transform:scale(1.1); cursor:grabbing}
+.dropzone .piece.placed{position:absolute; left:50%; top:38%; transform:translate(-50%,-50%); font-size:clamp(44px,6.5vw,72px);
+  filter:drop-shadow(0 3px 2px rgba(0,0,0,.12)); pointer-events:none}
+
+/* ===== Overlay turnos ===== */
+.overlay{position:fixed; inset:0; background:rgba(15,23,42,.55); display:none; align-items:center; justify-content:center; z-index:70; backdrop-filter:blur(3px)}
+.overlay.show{display:flex}
+.card{background:#fff; border:1px solid #e2e8f0; border-radius:24px; padding:24px; width:min(520px,92%); text-align:center; box-shadow:var(--shadow)}
+.count{font-size:clamp(48px,10vw,96px); font-weight:900; color:var(--primary)}
+
+/* ===== Dock ===== */
+.dock{position:fixed; left:0; right:0; bottom:0; padding:10px 16px; background:rgba(255,255,255,.9);
+  border-top:1px solid #e2e8f0; display:flex; gap:8px; align-items:center; backdrop-filter:blur(8px); z-index:4}
+.tag{background:#fff; border:1px solid #e2e8f0; border-radius:10px; padding:6px 10px; box-shadow:var(--shadow); font-weight:700}
+.push{flex:1}
+
+/* ===== Confeti global ===== */
+#confetti{pointer-events:none; position:fixed; inset:0; overflow:hidden; z-index:9999}
+.conf{position:absolute; width:10px; height:14px; opacity:.9; transform:rotate(0)}
+
+/* ===== Laberinto (único y centralizado) ===== */
+.maze{
+  --th:84px; position:relative; width:min(920px,96%); height:460px; margin:18px auto;
+  background:#fbfeff; border:1px solid #e2e8f0; border-radius:20px; box-shadow:var(--shadow); overflow:hidden}
+.maze.easy{--th:100px}
+.maze .track{position:absolute; z-index:1; height:var(--th); background:#fbf7d9; border-radius:calc(var(--th)/2)}
+/* Trayecto conectado: horizontal arriba → bajada → horizontal abajo */
+.maze .track.t1{left:80px;  top:100px; width:720px}
+.maze .track.t2{left:260px; top:150px; width:var(--th); height:220px}
+.maze .track.t3{left:260px; top:280px; width:620px}
+/* Dots (el JS los posiciona) */
+.maze .dot{position:absolute; z-index:2; display:grid; place-items:center; width:60px; height:60px; border-radius:50%;
+  font-size:34px; user-select:none; pointer-events:none}
+.maze .dot.start{background:#eef2ff; border:2px solid #c7d2fe}
+.maze .dot.goal{background:#fff7ed; border:2px solid #fed7aa; animation:goalPulse 1.4s ease-out infinite}
+@keyframes goalPulse{0%{box-shadow:0 0 0 0 rgba(251,191,36,.45)} 100%{box-shadow:0 0 0 22px rgba(251,191,36,0)}}
+/* Jugador */
+.maze .player{position:absolute; z-index:3; width:60px; height:60px; border-radius:50%;
+  display:grid; place-items:center; font-size:34px; background:#fff; border:2px solid #cbd5e1; box-shadow:0 8px 18px rgba(0,0,0,.08);
+  cursor:grab; user-select:none; transition:box-shadow .15s ease}
+.maze .player.dragging{cursor:grabbing; box-shadow:0 12px 22px rgba(0,0,0,.12)}
+/* Feedback fallo */
+.maze.fail{animation:mazeFail .25s ease}
+@keyframes mazeFail{0%{transform:translateX(0)} 25%{transform:translateX(-4px)} 50%{transform:translateX(4px)} 100%{transform:translateX(0)}}
+
+/* ===== Popup “ratón consiguió el queso” ===== */
+.cheese-pop{position:fixed; inset:0; display:none; align-items:center; justify-content:center;
+  background:rgba(15, 23, 42, 0.055); backdrop-filter:blur(2px); z-index:70; animation:fadeIn .18s ease-out}
+.cheese-pop.show{display:flex}
+.cheese-card{background:#ffffff37; border-radius:18px; padding:16px; box-shadow:var(--shadow); transform:scale(.9); animation:popIn .22s ease-out forwards}
+.cheese-card img{width:min(320px,70vw); height:auto; display:block}
+@keyframes popIn{to{transform:scale(1)}} @keyframes fadeIn{from{opacity:0} to{opacity:1}}
