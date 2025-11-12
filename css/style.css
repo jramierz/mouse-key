@@ -13,7 +13,7 @@ body{
 }
 
 /* ===== Cielo ===== */
-.sky{position:fixed; inset:0; z-index:-2; background:linear-gradient(180deg,#dff0ff,#f7fbff)}
+.sky{position:fixed; inset:0; z-index:-2; background:linear-gradient(180deg,#88c8ff,#e4effa)}
 .cloud{position:absolute; top:10%; width:200px; height:70px; background:#fff; border-radius:50px;
   filter:blur(1px) drop-shadow(0 10px 20px rgba(2,6,23,.12)); opacity:.8; animation:drift 70s linear infinite}
 .cloud:before,.cloud:after{content:""; position:absolute; background:#fff; width:120px; height:120px; border-radius:60px; top:-30px}
@@ -140,12 +140,17 @@ main{max-width:1100px; margin:0 auto; width:100%; padding:20px 16px 90px}
 .piece.dragging{opacity:.7; transform:scale(1.1); cursor:grabbing}
 .dropzone .piece.placed{position:absolute; left:50%; top:38%; transform:translate(-50%,-50%); font-size:clamp(44px,6.5vw,72px);
   filter:drop-shadow(0 3px 2px rgba(0,0,0,.12)); pointer-events:none}
-
 /* ===== Overlay turnos ===== */
 .overlay{position:fixed; inset:0; background:rgba(15,23,42,.55); display:none; align-items:center; justify-content:center; z-index:70; backdrop-filter:blur(3px)}
 .overlay.show{display:flex}
 .card{background:#fff; border:1px solid #e2e8f0; border-radius:24px; padding:24px; width:min(520px,92%); text-align:center; box-shadow:var(--shadow)}
 .count{font-size:clamp(48px,10vw,96px); font-weight:900; color:var(--primary)}
+
+.turn-img {width: 200px;max-width: 90%;height: auto;display: block;margin: 12px auto 20px;filter: drop-shadow(0 4px 10px rgba(0,0,0,0.15));animation: popIn 0.4s ease-out;
+}
+@keyframes popIn {
+  from { transform: scale(0.8); opacity: 0; } to   { transform: scale(1); opacity: 1; }
+}
 
 /* ===== Dock ===== */
 .dock{position:fixed; left:0; right:0; bottom:0; padding:10px 16px; background:rgba(255,255,255,.9);
@@ -159,14 +164,15 @@ main{max-width:1100px; margin:0 auto; width:100%; padding:20px 16px 90px}
 
 /* ===== Laberinto (único y centralizado) ===== */
 .maze{
-  --th:84px; position:relative; width:min(920px,96%); height:460px; margin:18px auto;
-  background:#fbfeff; border:1px solid #e2e8f0; border-radius:20px; box-shadow:var(--shadow); overflow:hidden}
+--th:84px;position:relative;width:min(920px,96%);height:460px;margin:18px auto;border:1px solid #f4e4a6;border-radius:20px;box-shadow:var(--shadow);overflow:hidden;
+background-color:#fffdf5;background-image:radial-gradient(circle, rgba(255, 208, 95, .22) 1.2px, transparent 1.2px); background-size: 28px 28px;
+}
 .maze.easy{--th:100px}
 .maze .track{position:absolute; z-index:1; height:var(--th); background:#ffe38e; border-radius:calc(var(--th)/2)}
 /* Trayecto conectado: horizontal arriba → bajada → horizontal abajo */
-.maze .track.t1{left:80px;  top:100px; width:720px}
-.maze .track.t2{left:260px; top:150px; width:var(--th); height:220px}
-.maze .track.t3{left:260px; top:280px; width:620px}
+.maze .track.t1{left:80px;  top:100px; width:820px; height:110px}
+.maze .track.t2{left:260px; top:150px; width:150px; height:220px}
+.maze .track.t3{left:260px; top:280px; width:620px; height:110px}
 /* Dots (el JS los posiciona) */
 .maze .dot{position:absolute; z-index:2; display:grid; place-items:center; width:60px; height:60px; border-radius:50%;
   font-size:34px; user-select:none; pointer-events:none}
@@ -182,11 +188,246 @@ main{max-width:1100px; margin:0 auto; width:100%; padding:20px 16px 90px}
 .maze.fail{animation:mazeFail .25s ease}
 @keyframes mazeFail{0%{transform:translateX(0)} 25%{transform:translateX(-4px)} 50%{transform:translateX(4px)} 100%{transform:translateX(0)}}
 
-/* ===== Popup “ratón consiguió el queso” ===== */
-.cheese-pop{position:fixed; inset:0; display:none; align-items:center; justify-content:center;
+/* ===== Popup “abeja consiguió las flores” ===== */
+.bee-pop{position:fixed; inset:0; display:none; align-items:center; justify-content:center;
   background:rgba(15, 23, 42, 0.055); backdrop-filter:blur(2px); z-index:70; animation:fadeIn .18s ease-out}
-.cheese-pop.show{display:flex}
-.cheese-card{background:#ffffff37; border-radius:18px; padding:16px; box-shadow:var(--shadow); transform:scale(.9); animation:popIn .22s ease-out forwards}
-.cheese-card img{width:min(320px,70vw); height:auto; display:block}
+.bee-pop.show{display:flex}
+.bee-card{background:#ffffff37; border-radius:18px; padding:16px; box-shadow:var(--shadow); transform:scale(.9); animation:popIn .22s ease-out forwards}
+.bee-card img{width:min(320px,70vw); height:auto; display:block}
 @keyframes popIn{to{transform:scale(1)}} @keyframes fadeIn{from{opacity:0} to{opacity:1}}
+
+/* Usa el mismo toggle de Globos para el del Laberinto */
+#btnModo, #btnMazeMode {
+  position: relative;
+  padding-right: 48px;
+}
+#btnModo::after, #btnMazeMode::after {
+  content:""; position:absolute; right:10px; top:50%; transform:translateY(-50%);
+  width:34px; height:18px; border-radius:9999px; background:#E5E7EB; border:1px solid rgba(0,0,0,.08);
+  transition: background .18s ease, border-color .18s ease;
+}
+#btnModo::before, #btnMazeMode::before {
+  content:""; position:absolute; right:28px; top:50%; transform:translateY(-50%);
+  width:14px; height:14px; border-radius:50%; background:#fff; box-shadow:0 1px 2px rgba(0,0,0,.25);
+  transition:right .18s ease;
+}
+#btnModo[data-on="1"]::after, #btnMazeMode[data-on="1"]::after { background:#22C55E; border-color:#22C55E; }
+#btnModo[data-on="1"]::before, #btnMazeMode[data-on="1"]::before { right:12px; }
+
+/* Oculta pistas en modo libre */
+.maze.free .track { display:none; }
+
+/* ===== Ratón y Queso ===== */
+.cheese-stage{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #88dffc;
+  border: 1px dashed #e2e8f0;
+  border-radius: 16px;
+}
+
+.cheese-mouse,
+.cheese-goal{
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  display: grid;
+  place-items: center;
+  font-size: 34px;
+  user-select: none;
+  pointer-events: auto; /* el mouse debe poder recibir el pointerdown */
+  filter: drop-shadow(0 6px 12px rgba(2,6,23,.12));
+}
+
+.cheese-mouse{ background:#fff; border:2px solid #cbd5e1; border-radius:50%; cursor: grab;}
+.cheese-goal { background:#fff7ed; border:2px solid #fed7aa; border-radius:50%;
+  animation: goalPulse 1.4s ease-out infinite; }
+
+  /* ===== Sorting de Colores ===== */
+.shelf{
+  position:absolute; left:16px; right:16px; top:60px;
+  display:grid; grid-template-columns:repeat(4,1fr); gap:14px; z-index:2;
+}
+.bin{
+  position:relative; background:#fff; border:1px solid #e2e8f0; border-radius:16px;
+  box-shadow:var(--shadow); padding:10px 10px 14px; display:grid; place-items:center; gap:6px;
+}
+.bin span{font-weight:800; color:#334155; font-size:14px}
+.bin-hole{
+  width:78px; height:38px; border-radius:22px; background:#f1f5f9;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,.08);
+}
+
+/* campo de pelotas */
+.color-field{
+  position:absolute; inset:120px 16px 16px 16px; border-radius:16px; background:#abcfff;
+  border:1px solid #e2e8f0; box-shadow: inset 0 0 0 1px rgba(0,0,0,.02);
+}
+
+/* pelotas */
+.ball{
+  position:absolute; width:48px; height:48px; border-radius:50%;
+  box-shadow:0 6px 14px rgba(2,6,23,.12), inset 0 0 0 2px rgba(255,255,255,.7);
+  cursor:grab; user-select:none; touch-action:none; display:grid; place-items:center; color:#fff; font-size:18px; font-weight:900;
+  transition:transform .12s ease, box-shadow .12s ease;
+}
+.ball.dragging{ cursor:grabbing; transform:scale(1.08); box-shadow:0 10px 22px rgba(2,6,23,.18); z-index:5 !important; }
+
+/* colores suaves y accesibles */
+.clr-rojo     { background:#ef4444; }
+.clr-amarillo { background:#f5f50b; color:#111; }
+.clr-morado   { background:#8b5cf6; }
+.clr-azul     { background:#3b82f6; }
+
+/* feedback al bin correcto */
+.bin.correct{ box-shadow:0 14px 26px rgba(0,0,0,.12), inset 0 0 0 2px rgba(16,185,129,.25); }
+
+/* ===== Sorting de Colores: bins coloreados ===== */
+#scr-sort .bin{
+  border:1px solid #e2e8f0;
+  transition: box-shadow .2s ease, transform .12s ease, border-color .2s ease;
+}
+#scr-sort .bin .bin-hole{
+  width:78px; height:38px; border-radius:22px; background:#f1f5f9;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,.08);
+}
+
+/* Colores del hueco y aro del bin */
+#scr-sort .bin[data-color="rojo"]     { border-color: rgba(239,68,68,.25); }
+#scr-sort .bin[data-color="amarillo"] { border-color: rgba(245,158,11,.25); }
+#scr-sort .bin[data-color="morado"]   { border-color: rgba(139,92,246,.25); }
+#scr-sort .bin[data-color="azul"]     { border-color: rgba(59,130,246,.25); }
+
+#scr-sort .bin[data-color="rojo"]     .bin-hole{ background-color: #ef4444; }
+#scr-sort .bin[data-color="amarillo"] .bin-hole{ background-color: #f5f50b;; }
+#scr-sort .bin[data-color="morado"]   .bin-hole{ background-color: #8b5cf6; }
+#scr-sort .bin[data-color="azul"]     .bin-hole{ background-color: #3b82f6; }
+
+/* Destacar el color objetivo */
+/* ===== Borde resaltado del color objetivo ===== */
+/* ===== Resaltado dinámico del color objetivo ===== */
+#scr-sort .bin.target {
+  --highlight: #22c55e; /* valor por defecto */
+  border: 5px solid var(--highlight);
+  box-shadow:
+    0 0 14px 4px var(--highlight),
+    inset 0 0 8px var(--highlight);
+  transform: scale(1.05);
+  transition: all 0.3s ease;
+  animation: pulseTarget 1.3s ease-in-out infinite;
+}
+
+/* Animación del brillo */
+@keyframes pulseTarget {
+  0%, 100% {
+    box-shadow:
+      0 0 12px 4px var(--highlight),
+      inset 0 0 6px var(--highlight);
+    transform: scale(1.05);
+  }
+  50% {
+    box-shadow:
+      0 0 22px 6px var(--highlight),
+      inset 0 0 10px var(--highlight);
+    transform: scale(1.08);
+  }
+}
+
+
+/* =================== HÁBITATS (scope) =================== */
+#scr-habitats .hab-rails{
+  position: relative;
+  width: min(1200px, 96%);
+  height: clamp(420px, 65vh, 560px);
+  margin: 14px auto 0;
+  border-radius: 18px;
+  background: #f8fafc;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 1px solid #e2e8f0;
+}
+#scr-habitats .hab-side{
+  position: relative;
+  overflow: hidden;
+}
+#scr-habitats .hab-side + .hab-side{
+  border-left: 2px dashed #e2e8f0;
+}
+#scr-habitats .hab-bg{
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover; opacity: .92; z-index: 0;
+}
+#scr-habitats .hab-chip{
+  position: absolute; top: 14px; left: 50%;
+  transform: translateX(-50%); z-index: 2;
+  background: #fff; padding: .5rem 1rem; border-radius: 12px;
+  font-weight: 800; color: #0f172a; box-shadow: 0 2px 8px rgba(15,23,42,.1);
+}
+#scr-habitats .hab-pile{
+  position: absolute; left: 10px; right: 10px; bottom: 12px; z-index: 2;
+  display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;
+  background: rgba(255,255,255,.45); border-radius: 10px; padding: 6px;
+  backdrop-filter: blur(2px);
+}
+#scr-habitats .hab-thumb{
+  width: 56px; height: 56px; object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,.1));
+}
+#scr-habitats .hab-animal{
+  position: absolute; left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  width: 140px; height: 140px; object-fit: contain;
+  cursor: pointer; z-index: 3; user-select: none;
+  filter: drop-shadow(0 10px 22px rgba(15,23,42,.15));
+  background-color: #ffffff9b;
+  border-radius: 50px;
+}
+
+/* Evitar arrastre nativo de imágenes (Safari/Chrome) */
+.hab-animal { -webkit-user-drag: none; user-select: none; }
+
+/* Capas para que todo conviva sin estorbar */
+.hab-bg        { z-index: 0; }
+.hab-pile      { z-index: 2; }
+.hab-letrero   { z-index: 3; }
+.hab-animal    { z-index: 4; }  /* el sprite encima de los letreros */
+
+/* Letreros */
+.hab-letrero{
+  position: absolute;
+  top: 14px;
+  left: 18px;                   /* por defecto a la izquierda */
+  pointer-events: none;         /* no bloquea clics/drag */
+  user-select: none;
+  filter: drop-shadow(0 10px 18px rgba(0,0,0,.15));
+  /* tamaño responsive: entre 150 y 280px aprox */
+  width: clamp(150px, 22vw, 280px);
+}
+.hab-letrero img{
+  display: block;
+  width: 300px;
+  height: 239px;
+}
+
+/* El de la selva va a la derecha */
+.hab-right .hab-letrero{
+  left: -5px;
+  right: 10px;
+  top: auto;
+}
+
+.hab-left .hab-letrero{
+  left: -10px;
+  right: 10px;
+  top: auto;
+}
+
+/* En pantallas pequeñas bajamos un toque el tamaño */
+@media (max-width: 700px){
+  .hab-letrero{ width: clamp(120px, 28vw, 220px); top: 10px; }
+}
 
