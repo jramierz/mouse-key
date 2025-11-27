@@ -17,7 +17,6 @@
     <div class="cloud c2"></div>
     <div class="cloud c3"></div>
     <div class="cloud c4"></div>
-
   </div>
 
   <!-- Mascota -->
@@ -28,10 +27,13 @@
   <!-- Header -->
   <header>
     <div class="head-inner">
+      <button id="btnHome" onclick="backHome()" class="nav-btn nav-btn-home" type="button">
+        <img src="img/home.png" alt="Ir al inicio" class="nav-home-icon">
+      </button>
+
       <h1>Mini-juegos</h1>
-      <span id="tagMode" class="tag">Modo: Inicio</span>
       <div class="push"></div>
-      <button id="btnPlay" class="btn primary">Jugar (3 retos)</button>
+      <!--button id="btnPlay" class="btn primary">Jugar (3 retos)<button-->
     </div>
   </header>
 
@@ -46,9 +48,15 @@
         </div>
 
         <div class="card">
-          <div class="big-emoji">🎹</div>
-          <h3>Piano</h3>
+          <div class="big-emoji">🔠</div>
+          <h3>Teclas</h3>
           <button class="secondary" onclick="openScreen('keys'); startPianoKeys()">Abrir</button>
+        </div>
+
+        <div class="card">
+          <div class="big-emoji">🔤</div>
+          <h3>Letras</h3>
+          <button class="secondary" onclick="openScreen('letters'); startLettersGame()">Abrir</button>
         </div>
 
         <div class="card">
@@ -92,7 +100,7 @@
           <h3>Dino Dig</h3>
           <button class="secondary" onclick="openScreen('dinos'); startDinos()">Abrir</button>
         </div>
-        
+
         <div class="card">
           <div class="big-emoji">💡</div>
           <h3>Panel Lumínico</h3>
@@ -101,10 +109,24 @@
           </button>
         </div>
 
-         <div class="card">
+        <div class="card">
           <div class="big-emoji">🧩</div>
           <h3>Rompecabezas</h3>
           <button class="secondary" onclick="openScreen('puzzle'); startPuzzle();">Abrir</button>
+        </div>
+
+        <div class="card">
+          <div class="big-emoji">✨🔍</div>
+          <h3>Match Express</h3>
+          <button class="secondary" onclick="openScreen('match'); startMatch()">Abrir</button>
+        </div>
+
+        <div class="card">
+          <div class="big-emoji">🦕🌿</div>
+          <h3>Dino Safari</h3>
+          <button class="secondary" onclick="openScreen('safari'); startSafariGame()">
+            Abrir
+          </button>
         </div>
 
       </div>
@@ -114,7 +136,6 @@
     <!-- GLOBOS -->
     <section id="scr-balloons" class="screen">
       <div class="bar">
-        <button class="pill" onclick="backHome()">← Inicio</button>
         <button id="btnModo" class="pill" data-on="1">Modo fácil: ON</button>
         <div class="push"></div>
         <span id="tagBalloons" class="tag">Globos: 0</span>
@@ -127,27 +148,44 @@
       </div>
     </section>
 
-    <!-- PIANO -->
+    <!-- TECLAS -->
     <section id="scr-keys" class="screen">
       <div class="bar">
-        <button class="pill" onclick="backHome()">← Inicio</button>
         <div class="push"></div>
         <span id="tagKeys" class="tag">Teclas: 0</span>
       </div>
       <div class="stage">
         <div id="rainbowTray" class="rainbow-tray"></div>
         <div class="kbd-wrap">
-          <div id="bigKey" class="big-key">Sigue:</div>
-          <div id="subKey" class="sub">Presiona las letras en orden</div>
+          <div id="bigKey" class="big-key">_ _ _ _</div>
         </div>
+
+        <img id="pianoPic" class="piano-pic" alt="">
+
       </div>
     </section>
+
+<!-- BUSCA LA LETRA -->
+<section id="scr-letters" class="screen">
+  <div class="bar">
+    <div class="push"></div>
+    <span id="tagLetters" class="tag">Aciertos: 0</span>
+  </div>
+
+  <div class="stage">
+    <div id="lettersTray" class="rainbow-tray"></div>
+
+    <div class="kbd-wrap">
+      <div id="lettersBig" class="big-key"></div>
+      <div id="lettersSub" class="sub"></div>
+    </div>
+  </div>
+</section>
 
     <!-- CASITAS (drag & drop) -->
     <section id="scr-drag" class="screen">
       <div class="bar">
         <div class="spacer"></div>
-        <button class="btn" onclick="backHome()">← Inicio</button>
       </div>
       <div class="stage">
         <div class="drag-wrap">
@@ -168,7 +206,6 @@
     <!-- CLIC SUAVE -->
     <section id="scr-clicks" class="screen">
       <div class="bar">
-        <button class="pill" onclick="backHome()">← Inicio</button>
         <div class="mouseHUD">
           <div id="chipLeft" class="counter">Izq: 0</div>
           <div id="chipRight" class="counter">Der: 0</div>
@@ -190,7 +227,6 @@
     <!-- LABERINTO -->
     <section id="scr-maze" class="screen">
       <div class="bar">
-        <button class="pill" onclick="backHome()">← Inicio</button>
         <div class="push"></div>
         <div id="mazePwrap" class="barwrap"></div>
       </div>
@@ -209,7 +245,6 @@
     <!-- RATÓN Y QUESO (juego nuevo) -->
     <section id="scr-cheese" class="screen">
       <div class="bar">
-        <button class="pill" onclick="backHome()">← Inicio</button>
         <div class="push"></div>
         <span id="tagCheese" class="tag">Quesos: 0 / 10</span>
       </div>
@@ -227,7 +262,6 @@
     <!-- SORTING DE COLORES -->
     <section id="scr-sort" class="screen">
       <div class="bar">
-        <button class="pill" onclick="backHome()">← Inicio</button>
         <button id="btnSortSpeak" class="pill">🔊 Repetir color</button>
         <div class="push"></div>
         <span id="tagSort" class="tag">Correctos: 0 / 20</span>
@@ -260,11 +294,9 @@
       </div>
     </section>
 
-
     <!-- HABITATS -->
     <section id="scr-habitats" class="screen">
       <div class="bar">
-        <button class="btn" id="btnBackHab">← Inicio</button>
         <button class="pill" id="btnHabAudio">🔊 Repetir instrucción</button>
         <div class="tag" id="tagHab">Correctos: 0 / 12</div>
       </div>
@@ -272,87 +304,127 @@
       <div id="hab-rails" class="hab-rails">
         <!-- Lado granja -->
         <div id="hab-farm" class="hab-side hab-left">
-          <img src="img/granja.png" alt="" class="hab-bg" />
+          <img src="img/habitats/granja.png" alt="" class="hab-bg" />
           <div class="hab-letrero">
-            <img src="img/letrero_granja.png" alt="Granja">
+            <img src="img/habitats/letrero_granja.png" alt="Granja">
           </div>
           <div class="hab-pile"></div>
         </div>
 
         <!-- Lado selva -->
         <div id="hab-jungle" class="hab-side hab-right">
-          <img src="img/selva.png" alt="" class="hab-bg" />
+          <img src="img/habitats/selva.png" alt="" class="hab-bg" />
           <div class="hab-letrero">
-            <img src="img/letrero_jungla.png" alt="Selva">
+            <img src="img/habitats/letrero_jungla.png" alt="Selva">
           </div>
           <div class="hab-pile"></div>
         </div>
 
         <!-- Sprite central -->
-        <img id="hab-animal" class="hab-animal" src="img/gallina.png" alt="animal actual" draggable="false" />
+        <img id="hab-animal" class="hab-animal" src="img/habitats/gallina.png" alt="animal actual" draggable="false" />
       </div>
     </section>
 
     <!-- DINOS -->
-<section id="scr-dinos" class="screen">
-  <div class="bar">
-    <button class="pill" onclick="backHome()">← Inicio</button>
-  </div>
-  <div id="dino-stage" class="dino-stage">
-    <img id="dino-bones" class="dino-bones" src="img/stego-bones.png" alt="">
-    <div id="dino-grid" class="dino-grid"></div>
+    <section id="scr-dinos" class="screen">
+      <div class="bar">
+      </div>
+      <div id="dino-stage" class="dino-stage">
+        <img id="dino-bones" class="dino-bones" src="img/dino-dig/stego-bones.png" alt="">
+        <div id="dino-grid" class="dino-grid"></div>
 
-    <div id="dino-choices" class="dino-choices">
-      <button class="dino-card" data-slot="0">
-        <img class="dino-card-img" alt="">
-      </button>
-      <button class="dino-card" data-slot="1">
-        <img class="dino-card-img" alt="">
-      </button>
-    </div>
-  </div>
-</section>
+        <div id="dino-choices" class="dino-choices">
+          <button class="dino-card" data-slot="0">
+            <img class="dino-card-img" alt="">
+          </button>
+          <button class="dino-card" data-slot="1">
+            <img class="dino-card-img" alt="">
+          </button>
+        </div>
+      </div>
+    </section>
 
-<!-- PANEL LUMÍNICO -->
-<section id="scr-panel" class="screen">
-  <div class="bar">
-    <button class="btn" onclick="backHome()">← Inicio</button>
-    <button style="background-color: #1bd036;" class="pill" onclick="startPanelMode('easy')">Modo fácil</button>
-    <button style="background-color: #e5db12;" class="pill" onclick="startPanelMode('medium')">Modo medio</button>
-    <button style="background-color: #d01b1b; color: #FFFF;" class="pill" onclick="startPanelMode('hard')">Modo difícil</button>
-    <button class="pill" onclick="startPanelMode('mix')">Modo mixto</button>
-    <button style="background-color: #8b1bd0; color: #FFFF;" class="pill" onclick="startPanelMode('infinite')">Modo infinito</button>
+    <!-- PANEL LUMÍNICO -->
+    <section id="scr-panel" class="screen">
+      <div class="bar" style="margin-left: 170px;">
+        <button style="background-color: #1bd036;" class="pill" onclick="startPanelMode('easy')">Modo fácil</button>
+        <button style="background-color: #e5db12;" class="pill" onclick="startPanelMode('medium')">Modo medio</button>
+        <button style="background-color: #d01b1b; color: #FFFF;" class="pill" onclick="startPanelMode('hard')">Modo
+          difícil</button>
+        <button class="pill" onclick="startPanelMode('mix')">Modo mixto</button>
+        <button style="background-color: #8b1bd0; color: #FFFF;" class="pill" onclick="startPanelMode('infinite')">Modo
+          infinito</button>
 
-    <div id="panel-info" class="tag"></div>
-  </div>
+        <div id="panel-info" class="tag"></div>
+      </div>
 
-  <div id="panel-board" class="panel-board"></div>
-</section>
+      <div id="panel-board" class="panel-board"></div>
+    </section>
 
-<!-- ROMPECABEZAS -->
-<section id="scr-puzzle" class="screen">
-  <div class="bar">
-    <button class="btn" onclick="backHome()">← Inicio</button>
-    <div class="tag" id="pz-tag">Piezas correctas: 0 / 9</div>
-  </div>
+    <!-- ROMPECABEZAS -->
+    <section id="scr-puzzle" class="screen">
+      <div class="bar">
+        <div class="tag" id="pz-tag">Piezas correctas: 0 / 9</div>
+      </div>
 
-  <div class="pz-stage">
-    <!-- Lado izquierdo: área cuadriculada con la imagen guía -->
-    <div class="pz-left">
-      <!-- Imagen completa, un poco opaca, solo de guía -->
-      <div class="pz-base"></div>
+      <div class="pz-stage">
+        <!-- Lado izquierdo: área cuadriculada con la imagen guía -->
+        <div class="pz-left">
+          <!-- Imagen completa, un poco opaca, solo de guía -->
+          <div class="pz-base"></div>
 
-      <!-- Cuadrícula donde se rellenan las piezas -->
-      <div id="pz-grid" class="pz-grid"></div>
-    </div>
+          <!-- Cuadrícula donde se rellenan las piezas -->
+          <div id="pz-grid" class="pz-grid"></div>
+        </div>
 
-    <!-- Lado derecho: piezas sueltas -->
-    <div class="pz-right">
-      <h3 class="pz-title">Arrastra las piezas</h3>
-      <div id="pz-pieces" class="pz-pieces"></div>
-    </div>
-  </div>
-</section>
+        <!-- Lado derecho: piezas sueltas -->
+        <div class="pz-right">
+          <h3 class="pz-title">Arrastra las piezas</h3>
+          <div id="pz-pieces" class="pz-pieces"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MATCH EXPRESS -->
+    <section id="scr-match" class="screen">
+      <div class="match-wrapper">
+
+        <div class="match-header">
+
+          <div class="match-header-title">Encuentra las DOS</div>
+          <img id="match-target-img" class="match-target-img" src="img/match-ex/fig-star.png" alt="">
+        </div>
+
+        <div id="match-board" class="match-board"></div>
+      </div>
+    </section>
+
+    <!-- DINO SAFARI -->
+    <section id="scr-safari" class="screen">
+      <div class="bar">
+        <div class="tag" id="safariLevelLabel">Dino Safari</div>
+        <div class="tag" id="safariScoreLabel">Aciertos: 0 / 6</div>
+      </div>
+
+      <!-- NUEVA TARJETA UNIFICADA -->
+      <div class="safari-card">
+        <div class="safari-card-header">
+          <div class="safari-card-text">
+            <div class="safari-title">Encuentra este dinosaurio</div>
+          </div>
+
+          <div class="safari-target-wrap">
+            <!-- la silueta la controla el JS con la clase .silhouette -->
+            <img id="safari-target" class="safari-target silhouette" src="img/dino-dig/stego.png"
+              alt="dinosaurio objetivo">
+          </div>
+        </div>
+      </div>
+
+      <div id="safari-stage" class="safari-stage"
+        style="  background: url('img/dino-dig/dino-bg.png') center/cover no-repeat;">
+      </div>
+    </section>
 
   </main>
 
@@ -365,7 +437,6 @@
       <button id="btnContinue" class="btn" style="display:none">Continuar</button>
     </div>
   </div>
-
 
   <!-- Confeti global -->
   <div id="confetti"></div>
